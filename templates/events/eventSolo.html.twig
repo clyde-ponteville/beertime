@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %} {{event.name}} - {{ parent() }}{% endblock %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/styles/main.css') }}">
+{% endblock %}
+{% block body %}
+
+<div class="container-fluid p-0">    
+    <div id="forBack" class="jumbotron jumbotron-fluid"> 
+    <img id='background' src="{{ event.poster ? '../assets/img/' ~ event.poster : 'https://dummyimage.com/1920x1080/a8a8a8/ffffff&text=image' }}" alt="image event">
+        <div class="container">
+            <h1 class="display-4 title">{{event.name}}</h1>            
+        </div>
+    </div>
+</div>
+<div class="container">
+    {% if date(event.startDate) <= date() and date(event.endDate) >= date() %}
+    <div class="pastille ongoing"></div>
+    {% elseif date(event.endDate) < date() %}
+    <div class="pastille passed"></div>
+    {% else %}
+    <div class="pastille forecoming"></div>
+    {% endif %}
+    <p>{{event.description}}</p>
+</div> 
+
+
+
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('assets/js/main.js') }}"></script>
+{% endblock %}

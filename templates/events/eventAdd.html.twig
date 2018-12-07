@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+{% block title %}Ajouter - {{ parent() }}{% endblock %}
+
+{% block body %}
+<div class="container mt-3">
+    <h1>Ajouter un événement</h1>
+    
+        {{ form_start (form, {
+            'attr': {'novalidate': 'novalidate'}
+        }) }}
+        <div class="row">
+            <div class="col-6">
+                <div class="form-group"> 
+                    <span class="error">{{ form_errors (form.name) }}</span>
+                    {{ form_widget (form.name, {
+                        'attr': {'class': 'form-control', 'placeholder': 'Titre de l\'événement'}
+                    }) }}
+                </div>
+                <div class="form-group">
+                <span class="error">{{ form_errors (form.description) }}</span>    
+                    {{ form_widget (form.description, {
+                        'attr': {'class': 'form-control', 'placeholder': 'Description...'}
+                    }) }}
+                </div>
+                <div class="row">                
+                    <div class="col-6">
+                        <div class="form-group">                        
+                        {{ form_label (form.startDate) }}
+                        {{ form_widget (form.startDate, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="form-group">                        
+                        {{ form_label (form.endDate) }}    
+                        {{ form_widget (form.endDate, {
+                            'attr': {'class': 'form-control'}
+                        }) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                <span class="error">{{ form_errors (form.price) }}</span>    
+                    {{ form_widget (form.price, {
+                        'attr': {'class': 'form-control', 'placeholder': 'Prix'}
+                    }) }}
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="form-group">
+                <span class="error">{{ form_errors (form.place) }}</span>    
+                    {{ form_widget (form.place, {
+                        'attr': {'class': 'form-control'}
+                    }) }}
+                </div>
+                <div class="form-group">
+                <span class="error">{{ form_errors (form.categories) }}</span>    
+                    {{ form_widget (form.categories, {
+                        'attr': {'class': 'form-control'}
+                    }) }}
+                </div>                
+                <div class="form-group">
+                <span class="error">{{ form_errors (form.posterFile) }}</span>    
+                    {{ form_widget (form.posterFile, {
+                        'attr': {'class': 'form-control',}
+                    }) }}
+                </div>
+                <div class="form-group">
+                <span class="error">{{ form_errors (form.posterUrl) }}</span>    
+                    {{ form_widget (form.posterUrl, {
+                        'attr': {'class': 'form-control', 'placeholder': 'Lien de l\'image'}
+                    }) }}
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success" type="submit">Ajouter</button>
+        {{ form_end (form) }}
+
+</div>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+{% block title %}Listes - {{ parent() }}{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="{{ asset('assets/styles/main.css') }}">
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="mt-3">    
+        <h1>Nos événements</h1>
+        {% if events | length > 0 %}
+        <div class="mb-2">
+            <a href="?sort=price" class="btn btn-primary">Trier par prix ↓</a>
+            <a href="?sort=name" class="btn btn-primary">Trier par titre ↓</a>
+            <a href="?sort=startDate" class="btn btn-primary">Trier par date ↓</a>        
+        </div>
+        <div class="row">
+            {% for event in events %}
+            <a href="{{path('eventSolo', {id: event.id})}}" class="link">  
+            <div class="col-md-6 col-lg-4">
+                <div class="card box-shadow" >
+                    <img class="card-img-top" src="{{ event.poster ? 'assets/img/' ~ event.poster : 'https://dummyimage.com/600x400/7d7d7d/ffffff&text=image' }}" alt="Card image cap">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">                        
+                            <h5 class="card-title titleCard">{{event.name}}</h5>
+                            {% if date(event.startDate) <= date() and date(event.endDate) >= date() %}
+                            <div class="pastille ongoing"></div>
+                            {% elseif date(event.endDate) < date() %}
+                            <div class="pastille passed"></div>
+                            {% else %}
+                            <div class="pastille forecoming"></div>
+                            {% endif %}
+                        </div>
+                        <div class="borderPerso"></div>
+                        <div class="date mt-1">{{date(event.startDate)| date('d M Y') ~ ' - ' ~ date(event.endDate)| date('d M Y')}}</div>
+                        <span class="price">{{ event.price == null ? 'Gratuit' : event.price ~ ' €'}}</span>
+                        <p class="card-text">{{event.description|length > 100 ? event.description|slice(0, 100) ~ "...": event.description}}</p>                        
+                        <a href="{{path('eventSolo', {id: event.id})}}" class="btn btn-warning">Plus d'infos</a> 
+                        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <a href="{{path('eventJoin', {id: event.id})}}" class="btn btn-success">Réserver</a> 
+                        {% endif %}           
+
+                    </div>
+                </div>
+            </div>
+            </a>  
+            {% endfor %}
+        </div>        
+        <div class="d-flex justify-content-center">
+            <nav>
+                <ul class="pagination pg-dark">
+                    {% if page > 1 %}
+                    <li class="page-item"><a class="page-link colorLink" href="?page={{numPrec == '0' ? '1' : numPrec}}">Previous</a></li>
+                    {% endif %}
+                    {% for i in 1.. max %}
+                        <li class="page-item"><a class="page-link colorLink" href="?page={{i}}">{{i}}</a></li>
+                    {% endfor %}  
+                    {% if page < max %}                                     
+                    <li class="page-item"><a class="page-link colorLink" href="?page={{numSuiv == max + 1 ? max : numSuiv}}">Next</a></li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+        </div>
+        {% else %}
+        <div>
+            <span>Pas de résultats</span>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
